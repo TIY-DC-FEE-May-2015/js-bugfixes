@@ -11,11 +11,11 @@ var league = {
   addTeam: function(teamName) {
     var newTeam = {
       wins: 0,
-      loses: 0,
+      losses: 0,
       ties: 0,
-      points: 0,
-      name: teamName
+      points: 0
     }
+    newTeam.name = teamName;
 
     league.teamList.push(newTeam)
   },
@@ -27,17 +27,19 @@ var league = {
     If not, return false
   */
   findTeam: function(teamName) {
-    for (var index = 0; index < league.teamList.length; index++) {
+
+    var teamLength = league.teamList.length;
+
+    for (var index = 0; index < teamLength; index++) {
       var team = league.teamList[index]
 
       if (team.name === teamName) {
         return team
       }
-      else {
-        return false
-      }
+      
+      
     }
-
+    return false
   },
 
   /* Function that accepts two team names as parameters
@@ -52,14 +54,14 @@ var league = {
   */
   addResult: function(winningTeam, losingTeam) {
     var winner = league.findTeam(winningTeam)
-    var loser = league.findTeam(winningTeam)
+    var loser = league.findTeam(losingTeam)
 
-    if (winner === false && loser === false) {
+    if (winner === false || loser === false) {
       return false
     }
 
     winner.wins += 1
-    winner.points += 2
+    winner.points += 3
 
     loser.losses += 1
 
@@ -78,11 +80,11 @@ var league = {
     var first = league.findTeam(firstTeam)
     var second = league.findTeam(secondTeam)
 
-    if (first || second === false) {
+    if (first === false || second === false) {
       return false
     }
 
-    first.ties + 1
+    first.ties += 1
     first.points += 1
     second.ties += 1
     second.points += 1
@@ -112,14 +114,15 @@ var league = {
 
     var formattedTeams = []
 
-    for (var index = 0; index < league.teamList; index++) {
+    for (var index = 0; index < league.teamList.length; index++) {
       var t = league.teamList[index]
 
-      var formattedString = t.name + " | " + t.wins + "-" + t.losses + "-" + t.draws + " | " + t.points
+      var formattedString = t.name + " | " + t.wins + "-" + t.losses + "-" + t.ties + " | " + t.points
 
       formattedTeams.push(formattedString)
     }
 
+    return formattedTeams;
   }
 
 }
