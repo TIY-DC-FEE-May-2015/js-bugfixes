@@ -11,7 +11,7 @@ var league = {
   addTeam: function(teamName) {
     var newTeam = {
       wins: 0,
-      loses: 0,
+      losses: 0,
       ties: 0,
       points: 0,
       name: teamName
@@ -20,6 +20,7 @@ var league = {
     league.teamList.push(newTeam)
   },
 
+
   /* Function that accepts a team name as a parameter
     If a team with that name exists in the team list,
     return that team object.
@@ -27,18 +28,20 @@ var league = {
     If not, return false
   */
   findTeam: function(teamName) {
+    // loop through team list
     for (var index = 0; index < league.teamList.length; index++) {
+    // make a variable that equals the items in the teamlist array
+    // this var is an object (the whole team)
       var team = league.teamList[index]
-
+      //check if that object has a name property matching the parameter
       if (team.name === teamName) {
         return team
       }
-      else {
-        return false
-      }
     }
-
+    return false
   },
+
+
 
   /* Function that accepts two team names as parameters
     If _either_ team name isn't valid, return false.
@@ -52,14 +55,14 @@ var league = {
   */
   addResult: function(winningTeam, losingTeam) {
     var winner = league.findTeam(winningTeam)
-    var loser = league.findTeam(winningTeam)
+    var loser = league.findTeam(losingTeam)
 
-    if (winner === false && loser === false) {
+    if (winner === false || loser === false) {
       return false
     }
 
     winner.wins += 1
-    winner.points += 2
+    winner.points += 3
 
     loser.losses += 1
 
@@ -78,11 +81,11 @@ var league = {
     var first = league.findTeam(firstTeam)
     var second = league.findTeam(secondTeam)
 
-    if (first || second === false) {
+    if (first === false || second === false) {
       return false
     }
 
-    first.ties + 1
+    first.ties += 1
     first.points += 1
     second.ties += 1
     second.points += 1
@@ -112,15 +115,16 @@ var league = {
 
     var formattedTeams = []
 
-    for (var index = 0; index < league.teamList; index++) {
+    for (var index = 0; index < league.teamList.length; index++) {
       var t = league.teamList[index]
-
-      var formattedString = t.name + " | " + t.wins + "-" + t.losses + "-" + t.draws + " | " + t.points
-
+ 
+      var formattedString = t.name + " | " + t.wins + "-" + t.losses + "-" + t.ties + " | " + t.points
       formattedTeams.push(formattedString)
+      console.log(formattedString)
     }
 
-  }
+    return formattedTeams
+  },
 
 }
 
@@ -144,3 +148,4 @@ var league = {
 var resetLeague = function() {
   league.teamList = []
 }
+
